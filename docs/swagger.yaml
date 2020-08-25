@@ -1,0 +1,155 @@
+definitions:
+  handler.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+    type: object
+  model.UserInfo:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      sayHello:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  model.UserModel:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  user.CreateRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  user.CreateResponse:
+    properties:
+      username:
+        type: string
+    type: object
+  user.ListRequest:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+      username:
+        type: string
+    type: object
+  user.ListResponse:
+    properties:
+      totalCount:
+        type: integer
+      userList:
+        items:
+          $ref: '#/definitions/model.UserInfo'
+        type: array
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: List users
+      parameters:
+      - description: List users
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.ListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"message":"OK","data":{}}'
+          schema:
+            $ref: '#/definitions/user.ListResponse'
+      summary: List the users in the database
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Add a new user
+      parameters:
+      - description: Create a new user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"message":"OK","data":{"username":"kong"}}'
+          schema:
+            $ref: '#/definitions/user.CreateResponse'
+      summary: Add new user to the database
+      tags:
+      - user
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user by ID
+      parameters:
+      - description: The user's database id index num
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"message":"OK","data":{"username":"kong"}}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Delete an user by the user identifier
+      tags:
+      - user
+  /user/{username}:
+    get:
+      consumes:
+      - application/json
+      description: Get an user by username
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"message":"OK","data":{}}'
+          schema:
+            $ref: '#/definitions/model.UserModel'
+      summary: Get an user by the user identifier
+      tags:
+      - user
+swagger: "2.0"

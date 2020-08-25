@@ -1,0 +1,33 @@
+jwt_secret: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5
+tls:
+  addr: :8081
+  cert: conf/server.crt
+  key: conf/server.key
+
+server:
+  name: gin-api-boilerplate # API Server的名字
+  env: SOLO # 开发模式: SOLO,DEV,QA,UAT,PROD
+  port: 8080      # Server HTTP port
+  ping:
+    url: http://localhost:8000 # pingServer函数请求的API服务器的ip:port
+    maxTryNumber: 10  # pingServer函数try的次数
+
+log:
+  encoding: console
+  level: debug
+  writers:
+    - stdout
+    - file
+  file: ../log/gin-api-boilerplate.log
+  maxSize: 10
+  maxAge: 30
+  maxBackups: 7
+  compress: true
+
+mysql:
+  database: temp
+  host: 192.168.2.20:3316
+  username: xxxx
+  password: wblocaldev
+  gorm:
+    logMode: false
